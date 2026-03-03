@@ -3,35 +3,27 @@ import { mockUser, User } from '../data/mockData';
 
 interface AppContextType {
   user: User;
+  isLoggedIn: boolean;
+  login: (user: User) => void;
+  logout: () => void;
   setUserRole: (role: 'farmowner' | 'marketplace') => void;
   unreadMessages: number;
   notifications: number;
   isDarkMode: boolean;
   toggleDarkMode: () => void;
-  isLoggedIn: boolean;
-  authName: string;
-  logout: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User>(mockUser);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem('philagri-logged-in') === 'true';
+  });
   const [unreadMessages] = useState(3);
   const [notifications] = useState(5);
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    const saved = localStorage.getItem('philagri-theme');
-    return saved === 'dark';
-  });
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return !!sessionStorage.getItem('philagri-auth');
-  });
-  const [authName, setAuthName] = useState(() => {
-    const saved = sessionStorage.getItem('philagri-auth');
-    if (saved) {
-      try { return JSON.parse(saved).name || 'User'; } catch { return 'User'; }
-    }
-    return 'User';
+    return localStorage.getItem('philagri-theme') === 'dark';
   });
 
   useEffect(() => {
@@ -39,22 +31,26 @@ export function AppProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('philagri-theme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
 
+  const login = (userData: User) => {
+    setUser(userData);
+    setIsLoggedIn(true);
+    localStorage.setItem('philagri-logged-in', 'true');
+  };
+
+  const logout = () => {
+    setIsLoggedIn(false);
+    setUser(mockUser);
+    localStorage.removeItem('philagri-logged-in');
+  };
+
   const toggleDarkMode = () => setIsDarkMode(prev => !prev);
 
   const setUserRole = (role: 'farmowner' | 'marketplace') => {
     setUser({ ...user, role });
   };
 
-  const logout = () => {
-    sessionStorage.removeItem('philagri-auth');
-    setIsLoggedIn(false);
-  };
-
   return (
-    <AppContext.Provider value={{
-      user, setUserRole, unreadMessages, notifications,
-      isDarkMode, toggleDarkMode, isLoggedIn, authName, logout,
-    }}>
+    <AppContext.Provider value={{ user, isLoggedIn, login, logout, setUserRole, unreadMessages, notifications, isDarkMode, toggleDarkMode }}>
       {children}
     </AppContext.Provider>
   );
