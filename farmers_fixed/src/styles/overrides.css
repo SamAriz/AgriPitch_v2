@@ -1,0 +1,110 @@
+/**
+ * Global overrides for Philagri theming
+ * This ensures consistent dark mode support across all components
+ */
+
+/* Remove bright white backgrounds in dark mode */
+.dark .bg-white {
+  background-color: var(--card) !important;
+}
+
+/* Update emerald/green colors to use theme variables */
+.dark .text-emerald-900,
+.dark .text-emerald-800,
+.dark .text-emerald-700 {
+  color: var(--text-primary) !important;
+}
+
+.dark .text-emerald-600,
+.dark .text-emerald-500 {
+  color: var(--text-secondary) !important;
+}
+
+.dark .text-green-600,
+.dark .text-green-700 {
+  color: var(--primary-green) !important;
+}
+
+/* Update border colors */
+.dark .border-emerald-200,
+.dark .border-emerald-100 {
+  border-color: var(--border-color) !important;
+}
+
+.dark .border-green-200 {
+  border-color: var(--border-color) !important;
+}
+
+.dark .border-blue-200 {
+  border-color: var(--border-color) !important;
+}
+
+.dark .border-amber-200 {
+  border-color: var(--border-color) !important;
+}
+
+.dark .border-purple-200 {
+  border-color: var(--border-color) !important;
+}
+
+/* Update background colors for accents */
+.dark .bg-emerald-50,
+.dark .bg-green-50 {
+  background-color: var(--muted-bg) !important;
+}
+
+.dark .bg-emerald-100,
+.dark .bg-green-100 {
+  background-color: var(--pale-green) !important;
+}
+
+.dark .bg-amber-50 {
+  background-color: var(--amber-pale) !important;
+}
+
+.dark .bg-blue-50 {
+  background-color: var(--muted-bg) !important;
+}
+
+/* Update chart colors for better dark mode visibility */
+.dark .recharts-text {
+  fill: var(--text-secondary) !important;
+}
+
+.dark .recharts-cartesian-grid-horizontal line,
+.dark .recharts-cartesian-grid-vertical line {
+  stroke: var(--border-color) !important;
+}
+
+/* Ensure tooltips have proper dark mode styling */
+.dark .recharts-tooltip-wrapper .recharts-default-tooltip {
+  background-color: var(--card) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Update amber text colors */
+.dark .text-amber-600,
+.dark .text-amber-700 {
+  color: var(--amber-deep) !important;
+}
+
+/* Ensure inputs have proper dark mode styling */
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: var(--input-background) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* Update tabs styling */
+.dark [role="tablist"] {
+  background-color: var(--muted-bg) !important;
+  border-color: var(--border-color) !important;
+}
