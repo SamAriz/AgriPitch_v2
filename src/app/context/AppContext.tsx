@@ -16,7 +16,16 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User>(mockUser);
+  const [user, setUser] = useState<User>(() => {
+    const saved = sessionStorage.getItem('philagri-auth');
+    if (saved) {
+      try {
+        const { role } = JSON.parse(saved);
+        if (role) return { ...mockUser, role };
+      } catch {}
+    }
+    return mockUser;
+  });
   const [unreadMessages] = useState(3);
   const [notifications] = useState(5);
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -41,7 +50,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const sync = () => {
       const saved = sessionStorage.getItem('philagri-auth');
       setIsLoggedIn(!!saved);
-      if (saved) { try { setAuthName(JSON.parse(saved).name || 'User'); } catch {} }
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          setAuthName(parsed.name || 'User');
+          if (parsed.role) setUser(prev => ({ ...prev, role: parsed.role }));
+        } catch {}
+      }
     };
     const id = setInterval(sync, 200);
     return () => clearInterval(id);

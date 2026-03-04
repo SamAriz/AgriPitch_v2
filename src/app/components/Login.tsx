@@ -6,8 +6,8 @@ import { toast } from 'sonner';
 
 // Demo credentials
 const DEMO_USERS = [
-  { email: 'farmer@philagri.ph', password: 'farm123', name: 'Juan dela Cruz' },
-  { email: 'buyer@philagri.ph',  password: 'buy123',  name: 'Maria Santos' },
+  { email: 'farmer@philagri.ph', password: 'farm123', name: 'Juan dela Cruz', role: 'farmowner' },
+  { email: 'buyer@philagri.ph',  password: 'buy123',  name: 'Maria Santos',   role: 'marketplace' },
 ];
 
 export function Login() {
@@ -34,9 +34,9 @@ export function Login() {
     setTimeout(() => {
       const user = DEMO_USERS.find(u => u.email === email && u.password === password);
       if (user) {
-        sessionStorage.setItem('philagri-auth', JSON.stringify({ name: user.name, email: user.email }));
+        sessionStorage.setItem('philagri-auth', JSON.stringify({ name: user.name, email: user.email, role: user.role }));
         toast.success(`Welcome back, ${user.name}!`);
-        navigate('/select-role');
+        navigate(user.role === 'farmowner' ? '/farm/dashboard' : '/marketplace/dashboard');
       } else {
         toast.error('Invalid email or password. Try: farmer@philagri.ph / farm123');
       }
@@ -58,7 +58,7 @@ export function Login() {
       return;
     }
     setTimeout(() => {
-      sessionStorage.setItem('philagri-auth', JSON.stringify({ name, email: signupEmail }));
+      sessionStorage.setItem('philagri-auth', JSON.stringify({ name, email: signupEmail, role: 'farmowner' }));
       toast.success(`Account created! Welcome, ${name}!`);
       navigate('/select-role');
       setLoading(false);

@@ -118,24 +118,16 @@ function LayoutContent() {
 
       {/* Footer */}
       <div className="px-3 py-4 border-t border-[var(--sidebar-border)] space-y-1">
-        {/* Dark mode toggle */}
-        <button onClick={toggleDarkMode}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--sidebar-foreground)] hover:bg-[var(--sidebar-accent)] hover:text-white transition-all">
-          <div className={`relative w-9 h-5 rounded-full transition-colors ${isDarkMode ? 'bg-[var(--primary-green)]' : 'bg-white/20'}`}>
-            <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${isDarkMode ? 'translate-x-4' : 'translate-x-0.5'}`} />
-          </div>
-          {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          <span>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
-        </button>
-
+        {/* Switch Role */}
         <Link to="/" onClick={() => setSidebarOpen(false)}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--sidebar-foreground)] hover:bg-white/10 hover:text-white transition-all">
-          <LogOut className="w-4 h-4" />
-          <span>Sign Out</span>
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--sidebar-foreground)] hover:bg-[var(--sidebar-accent)] hover:text-white transition-all">
+          <Sprout className="w-4 h-4" />
+          <span>Switch Role</span>
         </Link>
+        {/* Log Out */}
         <button onClick={() => { setSidebarOpen(false); handleLogout(); }}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--sidebar-foreground)] hover:bg-red-500/20 hover:text-red-300 transition-all">
-          <LogOut className="w-4 h-4 rotate-180" />
+          <LogOut className="w-4 h-4" />
           <span>Log Out</span>
         </button>
       </div>
